@@ -5,11 +5,12 @@ public class ConvertorFunction {
     public static String FunctToJSFunct(String input) {
         String res = input;
 
-        String pattern = "pow";
+        String pattern = ("(\\w+|\\(.*\\))\\^(\\w+|\\(.*\\))");
+        res = res.replaceAll(pattern, "pow($1,$2)");
+
+        pattern = "pow";
         res = res.replaceAll(pattern, "Math.pow");
 
-//        pattern = ("(\\w+|\\(.*\\))\\^(\\w+|\\(.*\\))");
-//        res = res.replaceAll(pattern, "Math.pow($1,$2)");
 
         pattern = "abs";
         res = res.replaceAll(pattern, "Math.abs");
@@ -24,8 +25,8 @@ public class ConvertorFunction {
     }
 
     public static void main(String[] args) {
-        String funct = "100*pow(x1-x0^2,2)+pow(1-x0,2)";
-        FunctToJSFunct(funct);
+        String funct = "2*(6*x0^2*pow(2*x0^2+x1^2+1, 3/2)+x1^2+1)/pow(2*x0^2+x1^2+1,3/2)";
+        System.out.println(FunctToJSFunct(funct));
     }
 
 }

@@ -3,7 +3,7 @@ package Methods;
 import CalculationFunction.Function;
 import matrix.Matrix;
 
-public class NewtonModificated extends Newton{
+public class NewtonModificated extends Newton {
     private int n;
     private int s;
 
@@ -36,7 +36,7 @@ public class NewtonModificated extends Newton{
                 }
 
                 double[] w = new double[n];
-                for (int i = 0; i < n; i++ ) {
+                for (int i = 0; i < n; i++) {
                     w[i] = 0;
                     for (int j = 0; j < n; j++) {
                         w[i] = w[i] + invertValueGess[i][j] * valueGrad[j];
@@ -59,7 +59,7 @@ public class NewtonModificated extends Newton{
         return x0;
     }
 
-    private double find_h(double[] x0, double[] valueGrad, double h0, double eps){
+    private double find_h(double[] x0, double[] valueGrad, double h0, double eps) {
         double h = 0;
         double f1, f2;
         double[] x1;
@@ -68,23 +68,23 @@ public class NewtonModificated extends Newton{
         f1 = getValueFunction(x0);
         do {
             h0 /= 2;
-            for (int i = 0; i < n; i++){
+            for (int i = 0; i < n; i++) {
                 x2[i] = x0[i] - h0 * valueGrad[i];
             }
             f2 = getValueFunction(x2);
 
-        }while (!( (f1 > f2) || (h0 < eps) ));
+        } while (!((f1 > f2) || (h0 < eps)));
 
-        if ( h0 > eps ){
+        if (h0 > eps) {
             do {
                 x1 = x2.clone();
                 f1 = f2;
                 h = h + h0;
-                for (int i = 0; i < n; i++){
+                for (int i = 0; i < n; i++) {
                     x2[i] = x1[i] - h * valueGrad[i];
                 }
                 f2 = getValueFunction(x2);
-            }while ( f1 >= f2 );
+            } while (f1 >= f2);
 
             double hA = h - 2 * h0;
             double hB = h;
@@ -92,21 +92,22 @@ public class NewtonModificated extends Newton{
             do {
                 double h1 = (hA + hB - delta) / 2;
                 double h2 = (hA + hB + delta) / 2;
-                for (int i = 0; i < n; i++){
+                for (int i = 0; i < n; i++) {
                     x1[i] = x0[i] - h1 * valueGrad[i];
                     x2[i] = x0[i] - h2 * valueGrad[i];
                 }
                 f1 = getValueFunction(x1);
                 f2 = getValueFunction(x2);
-                if ( f1 <= f2 ){
+                if (f1 <= f2) {
                     hB = h2;
-                }
-                else{
+                } else {
                     hA = h1;
                 }
-            }while((hB - hA) >= eps);
-            h = (hA + hB) / 2;
+            } while ((hB - hA) >= eps);
+
+            return (hA + hB) / 2;
+        } else {
+            return h0;
         }
-        return h;
     }
 }

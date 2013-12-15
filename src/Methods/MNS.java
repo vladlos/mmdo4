@@ -74,8 +74,11 @@ public class MNS extends Minimize{
                 }
             }while((hB - hA) >= eps);
             h = (hA + hB) / 2;
+            return h;
         }
-        return h;
+        else {
+            return h0;
+        }
     }
 
     @Override
